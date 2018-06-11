@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html ja="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>Blog</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body class='<%= controller.controller_name %>'>
+<div id="wrap">
+
+  <header id="header">
+    <div class="inner">
+      <h1 id="logo"><%= link_to "katsumata Blog", root_path %></h1>
+      <p id="catchcopy">Description or something ....</p>
+    </div><!-- /.inner -->
+  </header><!-- /#header -->
+
+  <div id="main">
+    <%= yield %>
+  </div><!-- /#main -->
+  
+</div><!-- /#wrap -->
+</body>
+</html>
+その後、ScssでCSSを記述していきます。
+app/assets/stylesheets/配下を見て下さい。
+application.css、comments.css.scss、posts.css.scssなどのファイルが存在すると思います。application.cssについては上部で既に説明したのでその他のファイルについて説明します。
+お気づきかもしれませんが、posts.css.scssのファイル名の先頭が「ビューのフォルダ名」と同じです。これは、投稿関連のビュー(app/assets/posts/配下のファイル)のスタイリングをする場合は、posts.css.scssを使うと、スタイリングのコードがどこに書かれているか分かりやすいのでよいです。
+
+※上記の項目で説明しましたが、Railsではapplication.cssにより全ての画面でapp/assets/stylesheets/配下の全てのスタイリングシートを読み込むため、それぞれのファイルに分けてCSSを書いた方がよいだけであり、一つのファイルにCSSを動いても動きます。
+また、Railsはビュー毎に読み込むCSSを変えているわけではないので、CSSファイル間のidやclassのスタイリングの競合に注意して下さい。
+
+今回は、基本的な色やレイアウトを指定するファイルのapp/assets/stylesheets/common.css.scssを作成し、次の内容を記載して下さい。
+（スタイリングの仕方の話になると本が書けてしまうので、コピーで大丈夫です）
+
+// カラー変数
+$baseBlack:     #333;
+$baseGray:      #aaa;
+$baseLightGray: #eee;
+$baseBlue:      #428bca;
+$baseLightBlue: #5bc0de;
+
+/*-----------------------------
+
+　リセットCSS + サイト共通設定
+
+------------------------------*/
+body,
+h1,h2,h3,h4,h5,h6,
+p,ul,ol,dl,dt,dd,li,
+table,th,td,
+form,select,option,input
+address,pre,strong,em,iframe,img{
+  margin:0;
+  padding:0;
+  font-size:100%;
+  border:0;
+}
+
+/* デフォルト文字設定 */
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+
+  color: $baseBlack;
+  font-family: "Gotham Narrow SSm",Arial,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+
+/* リストのマーカーを非表示 */
+ul, ol {
+  list-style-type:none;
+}
+
+/* デフォルトリンク色の設定 */
+a,
+a:-webkit-any-link {
+  text-decoration: none;
+
+  color: $baseGray;
+
+  &:hover {
+    color: $baseLightBlue;
+  }
+}
+
+
+/*--------------------------
+
+　レイアウト
+
+---------------------------*/
+body {
+  border-top: $baseGray 1px solid;
+}
+
+/* ページ全体のラッパー
+---------------------------*/
+#wrap {
+  position: relative;
+  width: 100%;
+  height: auto !important;
+  height: 100%;
+  min-height: 100%;
+
+  background-color: $baseBlue;
+}
+
+/* ヘッダー
+---------------------------*/
+header {
+  border-bottom: $baseGray 1px solid;
+  background-color: white;
+
+  .inner {
+    width: 800px;
+    height: 58px;
+    margin: 0 auto;
+   
+    #logo {
+      font-size: 250%;
+      text-decoration: none;
+    }
+
+    #catchcopy {
+      color: $baseGray;
+      font-size: 90%;
+      position: relative;
+      top: -10px;
+      left: 5px;
+    }
+  }
+}
+
+
+/* メインコンテンツ
+---------------------------*/
+#main {
+  width: 800px;
+  height: 100%;
+
+  padding: 10px;
+
+  margin: 30px auto;
+
+  background-color: white;
+  border-radius: 5px;
+
+
+  h1 {
+    font-size: 200%;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $baseBlue;
+  }
+}
+
+
+/*-----------------------------
+
+　共通コンポーネント
+
+------------------------------*/
+input[type="text"],
+textarea {
+  border-radius: 3px;
+  border: 1px solid $baseGray; 
+}
